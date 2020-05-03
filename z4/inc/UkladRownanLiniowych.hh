@@ -24,9 +24,9 @@ public:
   Wektor<Typ, Rozmiar> w_bledu() const;
 };
 
-
+template<typename Typ, int Rozmiar>
 istream& operator >> (istream &strm, UkladRownanLiniowych<Typ, Rozmiar> &UklRown);
-
+template<typename Typ, int Rozmiar>
 ostream& operator << (ostream &strm,const UkladRownanLiniowych<Typ, Rozmiar> &UklRown);
 
 

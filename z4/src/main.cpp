@@ -2,6 +2,8 @@
 #include "Wektor.hh"
 #include "Macierz.hh"
 #include "UkladRownanLiniowych.hh"
+#include "rozmiar.h"
+#include "LZespolona.hh"
 #include <fstream>
 using namespace std;
 
@@ -17,18 +19,18 @@ int main()
    cout << UklRown << endl;
    cout << "Rozwiazanie x = (x1,x2,x3,x4,x5)" << endl;
    cout << UklRown.Oblicz() << endl;
-   Wekbledu = Ukl.w_bledu();
+   Wekbledu = UklRown.w_bledu();
    cout << "Wektor bledu: Ax-b = (" << Wekbledu << ")" << endl;
 
 }
   else if(typ=='z'){
-   Wektor<double,ROZMIAR>  Wekbledu;
+   Wektor<LZespolona,ROZMIAR>  Wekbledu;
    UkladRownanLiniowych<LZespolona, ROZMIAR> UklRown;
    cin >> UklRown;     
    cout << UklRown << endl;
    cout << "Rozwiazanie x = (x1,x2,x3,x4,x5)" << endl;
    cout << UklRown.Oblicz() << endl;
-   Wekbledu = Ukl.w_bledu();
+   Wekbledu = UklRown.w_bledu();
    cout << "Wektor bledu: Ax-b = ("<<Wekbledu<< ")" << endl;
 }
 

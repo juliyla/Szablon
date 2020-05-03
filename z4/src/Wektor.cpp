@@ -26,7 +26,7 @@ Wektor<Typ, Rozmiar>::Wektor(Typ tab[])
 
 template<typename Typ, int Rozmiar>
 Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator + (const Wektor<Typ, Rozmiar> &W2) const {
-  Wektor Wynik;
+  Wektor<Typ, Rozmiar>  Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik[i] = tab[i] + W2[i];
   return Wynik;
@@ -34,7 +34,7 @@ Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator + (const Wektor<Typ, Rozmiar
 
 template<typename Typ, int Rozmiar>
 Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator - (const Wektor<Typ, Rozmiar> &W2) const {
-  Wektor Wynik;
+  Wektor<Typ, Rozmiar>  Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik[i] = tab[i] - W2[i];
   return Wynik;
@@ -50,7 +50,7 @@ Typ Wektor<Typ, Rozmiar>::operator * (const Wektor<Typ, Rozmiar> &W2) const {
 
 template<typename Typ, int Rozmiar>
 Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator * (double l2) const{
-  Wektor Wynik;
+  Wektor<Typ, Rozmiar>  Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik[i] = tab[i] * l2;
   return Wynik;
@@ -59,7 +59,7 @@ Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator * (double l2) const{
 
 template<typename Typ, int Rozmiar>
 Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator / (double l2) const{
-  Wektor Wynik;
+  Wektor<Typ, Rozmiar>  Wynik;
   if(l2 == 0){
         std::cerr << "Nie wolno dzielic przez zero!" << std::endl;
         exit(1);
@@ -69,14 +69,6 @@ Wektor<Typ, Rozmiar> Wektor<Typ, Rozmiar>::operator / (double l2) const{
   return Wynik;
 }
 
-/*double Wektor::dlugosc() const{
-  double l = 0;
-  for (int i=0; i<ROZMIAR; i++)
-    l = l + (tab[i] * tab[i]);
-  l = sqrt(l);
-  return l;
-}
-*/
 
 /*Operatory porownania*/
 
@@ -136,3 +128,11 @@ istream & operator >> (istream &strm, Wektor<Typ, Rozmiar> &W) {
     strm >> W[i];
   return strm;
 }
+
+template class Wektor<double, 5>;
+template istream& operator >> (istream &strm, Wektor<double, 5> &Wek);
+template ostream& operator << (ostream &strm, const Wektor<double, 5> &Wek);
+
+template class Wektor<LZespolona, 5>;
+template istream& operator >> (istream &strm, Wektor<LZespolona, 5> &Wek);
+template ostream& operator << (ostream &strm, const Wektor<LZespolona, 5> &Wek);

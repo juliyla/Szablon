@@ -20,7 +20,7 @@ class Macierz {
   Macierz<Typ, Rozmiar> operator - (const Macierz<Typ, Rozmiar> & M) const;
   Macierz<Typ, Rozmiar> operator * (const Macierz<Typ, Rozmiar> & M) const;
   Wektor<Typ, Rozmiar> operator * (const Wektor<Typ, Rozmiar> & W) const;
-  Macierz<Typ, Rozmiar> operator * (const Typ l) const;
+  Macierz<Typ, Rozmiar> operator * (const double l) const;
 
   bool operator == (const Macierz & M) const;
   bool operator != (const Macierz & M) const;

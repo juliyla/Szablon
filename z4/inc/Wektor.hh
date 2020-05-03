@@ -11,13 +11,13 @@ class Wektor {
   Typ tab[Rozmiar];
 public:
   Wektor<Typ, Rozmiar>();
-  Wektor<Typ, Rozmiar>();(Typ tab[]);
+  Wektor<Typ, Rozmiar>(Typ tab[]);
  
-  const Wektor<Typ, Rozmiar> operator + (const Wektor<Typ, Rozmiar> &W2) const;
-  const Wektor<Typ, Rozmiar> operator - (const Wektor<Typ, Rozmiar> &W2) const;
+  Wektor<Typ, Rozmiar> operator + (const Wektor<Typ, Rozmiar> &W2) const;
+  Wektor<Typ, Rozmiar> operator - (const Wektor<Typ, Rozmiar> &W2) const;
   Typ operator * (const Wektor<Typ, Rozmiar> &W2) const;
-  const Wektor<Typ, Rozmiar> operator * (double l) const;
-  const Wektor<Typ, Rozmiar> operator / (double l) const;
+  Wektor<Typ, Rozmiar> operator * (double l) const;
+  Wektor<Typ, Rozmiar> operator / (double l) const;
 
   /*double dlugosc() const; */
 

@@ -4,10 +4,10 @@
 
 using namespace std;
 
-LZespolona LZespolona::operator=(double l)
+LZespolona &LZespolona::operator=(double l)
 {
-  re = l;
-  im = 0;
+  this->re = l;
+  this->im = 0;
   return *this;
 }
 
@@ -42,7 +42,7 @@ LZespolona  operator * (LZespolona  Skl1,  LZespolona  Skl2){
 LZespolona  operator / (LZespolona  Skl1,  LZespolona  Skl2){
   LZespolona  Wynik;
 
- if(Skl2.re == 0 && im == 0)         
+ if(Skl2.re == 0 && Skl2.im == 0)         
   {
     cerr << "Nie wolno dzielic przez 0" << endl;
     exit(1);
@@ -51,6 +51,14 @@ LZespolona  operator / (LZespolona  Skl1,  LZespolona  Skl2){
   
   return Wynik; 
   
+}
+
+LZespolona  operator * (LZespolona  Skl1,  double  l){
+  LZespolona  Wynik;
+
+  Wynik.re = Skl1.re * l;
+  Wynik.im = Skl1.im * l;
+  return Wynik;
 }
 
 LZespolona sprzezenie(LZespolona Skl)
@@ -91,8 +99,7 @@ bool operator == (LZespolona Skl1, LZespolona Skl2){
 
 }
 
-bool operator !=(LZespolona Skl1, LZespolona Skl2)
-{
+bool operator !=(LZespolona Skl1, LZespolona Skl2){
   if(Skl1.re!=Skl2.re || Skl1.im!=Skl2.im)
   return true;
   else

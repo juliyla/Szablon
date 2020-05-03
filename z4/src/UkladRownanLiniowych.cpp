@@ -1,6 +1,7 @@
 #include "UkladRownanLiniowych.hh"
 #include "Macierz.hh"
 #include "Wektor.hh"
+#include "LZespolona.hh"
 #include "rozmiar.h"
 #include <math.h>
 #include <algorithm>
@@ -8,10 +9,13 @@
 using namespace std;
 
 template<typename Typ, int Rozmiar>
-Wektor UkladRownanLiniowych<Typ, Rozmiar>::w_bledu() const {
-  Wektor<Typ, Rozmiar> wynik;
-
-  wynik = get_A() * Oblicz() - get_b();
+Wektor<Typ, Rozmiar> UkladRownanLiniowych<Typ, Rozmiar>::w_bledu() const {
+  Wektor<Typ, Rozmiar> wynik,wpom;
+  Macierz<Typ, Rozmiar> mpom;
+  wpom=b;
+  mpom=A;
+  mpom.transponuj();
+  wynik = mpom*Oblicz()-wpom;cd ..
 
   return wynik;
 }
@@ -23,35 +27,26 @@ Wektor<Typ, Rozmiar> UkladRownanLiniowych<Typ, Rozmiar>::Oblicz() const {
   Typ wyznaczniki[ROZMIAR]; 
   Typ gl_wyznacznik = get_A().wyznacznik();
   Wektor<Typ, Rozmiar> wolne = get_b(); 
-  
-  if(abs(gl_wyznacznik) > dokladnosc) {
-  
   for(int i = 0; i < ROZMIAR; i++) {
     mpom = mpom.zmien_kolumne(i, wolne);
     wyznaczniki[i] = mpom.wyznacznik();
     wyznaczniki[i] = wyznaczniki[i] / gl_wyznacznik; 
     mpom = get_A();
     }
-  }
-  else
-    {
-      cerr << "Glowny wyznacznik wynosi 0. Uklad rownan nie ma rozwiazania." << endl;
-      exit(0);
-    }
-  return Wektor(wyznaczniki);
+  return Wektor<Typ, Rozmiar>(wyznaczniki);
 }
 
 template<typename Typ, int Rozmiar>
 istream & operator >> (istream &strm, UkladRownanLiniowych<Typ, Rozmiar> & UklRown) {
   
-  Macierz mpom;
-  Wektor wpom;
+  Macierz<Typ, Rozmiar> mpom;
+  Wektor<Typ, Rozmiar> wpom;
 
   strm>> mpom;
   strm>> wpom;
   
 
-  UklRown = UkladRownanLiniowych(mpom,wpom);
+  UklRown = UkladRownanLiniowych<Typ, Rozmiar>(mpom,wpom);
   return strm;
 }
 
@@ -61,3 +56,11 @@ ostream & operator << (ostream &strm, const UkladRownanLiniowych<Typ, Rozmiar> &
   cout << "Wektor wyrazow wolnych b: " << endl << UklRown.get_b() << endl;
   return strm;
 }
+
+template class UkladRownanLiniowych<double, 5>;
+template istream& operator >> (istream &strm, UkladRownanLiniowych<double, 5> &UklRown);
+template ostream& operator << (ostream &strm, const UkladRownanLiniowych<double, 5> &UklRown);
+
+template class UkladRownanLiniowych<LZespolona, 5>;
+template istream& operator >> (istream &strm, UkladRownanLiniowych<LZespolona, 5> &UklRown);
+template ostream& operator << (ostream &strm, const UkladRownanLiniowych<LZespolona, 5> &UklRown);

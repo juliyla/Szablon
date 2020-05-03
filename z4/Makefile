@@ -23,7 +23,7 @@ obj/UkladRownanLiniowych.o: src/UkladRownanLiniowych.cpp inc/UkladRownanLiniowyc
 obj/Macierz.o: src/Macierz.cpp inc/Macierz.hh 
 	g++ ${CPPFLAGS} -o obj/Macierz.o src/Macierz.cpp
 
-obj/Wektor.o: src/Wektor.cpp inc/Wektor.hh inc/rozmiar.h nc/LZespolona.hh
+obj/Wektor.o: src/Wektor.cpp inc/Wektor.hh inc/rozmiar.h inc/LZespolona.hh
 	g++ ${CPPFLAGS} -o obj/Wektor.o src/Wektor.cpp
 
 clean:
