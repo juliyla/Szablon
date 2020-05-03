@@ -7,27 +7,22 @@
 
 using namespace std;
 
-Wektor UkladRownanLiniowych::w_bledu() const {
-  Wektor wynik;
+template<typename Typ, int Rozmiar>
+Wektor UkladRownanLiniowych<Typ, Rozmiar>::w_bledu() const {
+  Wektor<Typ, Rozmiar> wynik;
 
   wynik = get_A() * Oblicz() - get_b();
 
   return wynik;
 }
 
-
-double UkladRownanLiniowych::dl_bledu() const {
-  double wynik = w_bledu().dlugosc();
-
-  return wynik;
-}
-
-Wektor UkladRownanLiniowych::Oblicz() const {
-  Wektor wynik;
-  Macierz mpom = get_A(); 
-  double wyznaczniki[ROZMIAR]; 
-  double gl_wyznacznik = get_A().wyznacznik();
-  Wektor wolne = get_b(); 
+template<typename Typ, int Rozmiar>
+Wektor<Typ, Rozmiar> UkladRownanLiniowych<Typ, Rozmiar>::Oblicz() const {
+  Wektor<Typ, Rozmiar> wynik;
+  Macierz<Typ, Rozmiar> mpom = get_A(); 
+  Typ wyznaczniki[ROZMIAR]; 
+  Typ gl_wyznacznik = get_A().wyznacznik();
+  Wektor<Typ, Rozmiar> wolne = get_b(); 
   
   if(abs(gl_wyznacznik) > dokladnosc) {
   
@@ -46,8 +41,8 @@ Wektor UkladRownanLiniowych::Oblicz() const {
   return Wektor(wyznaczniki);
 }
 
-
-istream & operator >> (istream &strm, UkladRownanLiniowych & UklRown) {
+template<typename Typ, int Rozmiar>
+istream & operator >> (istream &strm, UkladRownanLiniowych<Typ, Rozmiar> & UklRown) {
   
   Macierz mpom;
   Wektor wpom;
@@ -60,11 +55,9 @@ istream & operator >> (istream &strm, UkladRownanLiniowych & UklRown) {
   return strm;
 }
 
-ostream & operator << (ostream &strm, const UkladRownanLiniowych & UklRown) {
+template<typename Typ, int Rozmiar>
+ostream & operator << (ostream &strm, const UkladRownanLiniowych<Typ, Rozmiar> & UklRown) {
   cout << "Macierz: " << endl << UklRown.get_A() << endl;
   cout << "Wektor wyrazow wolnych b: " << endl << UklRown.get_b() << endl;
-  cout << "Rozwiązanie x=(x1, x2, x3): " << endl << UklRown.Oblicz() << endl;
-  cout << "Wektor bledu: Ax-b = " << UklRown.w_bledu() << endl;
-  cout << "Dlugosc wektora bledu: |Ax-b| = " << UklRown.dl_bledu() << endl;
   return strm;
 }

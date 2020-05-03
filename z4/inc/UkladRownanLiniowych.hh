@@ -8,26 +8,26 @@
 
 using namespace std;
 
+template<typename Typ, int Rozmiar>
 class UkladRownanLiniowych {
-  Macierz A;
-  Wektor b;
+  Macierz<Typ, Rozmiar> A;
+  Wektor<Typ, Rozmiar> b;
 
 public:
-  UkladRownanLiniowych(): A(), b() {};
-  UkladRownanLiniowych(Macierz AA, Wektor bb) : A(AA), b(bb) {} ;   
+  UkladRownanLiniowych<Typ, Rozmiar>(): A(), b() {};
+  UkladRownanLiniowych<Typ, Rozmiar>(Macierz<Typ, Rozmiar> AA, Wektor<Typ, Rozmiar> bb) : A(AA), b(bb) {} ;   
 
-  const Macierz & get_A() const {return A;};
-  const Wektor & get_b() const {return b;};
+  const Macierz<Typ, Rozmiar> & get_A() const {return A;};
+  const Wektor<Typ, Rozmiar> & get_b() const {return b;};
   
-  Wektor Oblicz() const;
-  Wektor w_bledu() const;
-  double dl_bledu() const;
+  Wektor<Typ, Rozmiar> Oblicz() const;
+  Wektor<Typ, Rozmiar> w_bledu() const;
 };
 
 
-std::istream& operator >> (std::istream &strm, UkladRownanLiniowych &UklRown);
+istream& operator >> (istream &strm, UkladRownanLiniowych<Typ, Rozmiar> &UklRown);
 
-std::ostream& operator << (std::ostream &strm,const UkladRownanLiniowych &UklRown);
+ostream& operator << (ostream &strm,const UkladRownanLiniowych<Typ, Rozmiar> &UklRown);
 
 
 #endif

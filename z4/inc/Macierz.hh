@@ -5,34 +5,35 @@
 #include "rozmiar.h"
 #include <iostream>
 
+template<typename Typ, int Rozmiar>
 class Macierz {
-   Wektor tab[ROZMIAR];
+   Wektor<Typ, Rozmiar> tab[ROZMIAR];
   public:  
-  Macierz();
-  Macierz(Wektor A, Wektor B, Wektor C);
+  Macierz<Typ, Rozmiar>();
+  Macierz<Typ, Rozmiar>(const Wektor<Typ, Rozmiar> tab[]);
 
-  double wyznacznik() const;
-  Macierz zmien_kolumne(int kolum, Wektor wek);
-  Macierz transponuj() const;
+  Typ wyznacznik() const;
+  Macierz<Typ, Rozmiar> zmien_kolumne(int kolum, Wektor<Typ, Rozmiar> wek);
+  Macierz<Typ, Rozmiar> transponuj() const;
 
-  Macierz operator + (const Macierz & M) const;
-  Macierz operator - (const Macierz & M) const;
-  Macierz operator * (const Macierz & M) const;
-  Wektor operator * (const Wektor & W) const;
-  Macierz operator * (const double l) const;
+  Macierz<Typ, Rozmiar> operator + (const Macierz<Typ, Rozmiar> & M) const;
+  Macierz<Typ, Rozmiar> operator - (const Macierz<Typ, Rozmiar> & M) const;
+  Macierz<Typ, Rozmiar> operator * (const Macierz<Typ, Rozmiar> & M) const;
+  Wektor<Typ, Rozmiar> operator * (const Wektor<Typ, Rozmiar> & W) const;
+  Macierz<Typ, Rozmiar> operator * (const Typ l) const;
 
   bool operator == (const Macierz & M) const;
   bool operator != (const Macierz & M) const;
 
-  const Wektor & operator[] (int index) const;
-  Wektor & operator[] (int index);
+  const Wektor<Typ, Rozmiar> & operator[] (int index) const;
+  Wektor<Typ, Rozmiar> & operator[] (int index);
   
 };
 
-
-std::istream& operator >> (std::istream &Strm, Macierz &M);
-
-std::ostream& operator << (std::ostream &Strm, const Macierz &M);
+template<typename Typ, int Rozmiar>
+std::istream& operator >> (std::istream &strm, Macierz<Typ, Rozmiar> &M);
+template<typename Typ, int Rozmiar>
+std::ostream& operator << (std::ostream &strm, const Macierz<Typ, Rozmiar> &M);
 
 
 #endif

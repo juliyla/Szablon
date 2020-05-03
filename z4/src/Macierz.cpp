@@ -3,94 +3,111 @@ using namespace std;
 
 /*Konstruktory*/
 
-Macierz::Macierz(){
-  Wektor W;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar>::Macierz(){
+  Wektor<Typ, Rozmiar> W;
   for (int i=0; i < ROZMIAR; i++)
     tab[i] = W;  
 }
 
-Macierz::Macierz(Wektor A, Wektor B, Wektor C){
-  tab[0] = A;
-  tab[1] = B;
-  tab[2] = C;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar>::Macierz(const Wektor<Typ, Rozmiar> tab[]){
+ for(int i=0; i < ROZMIAR; i++)
+        *this[i]=tab[i];
 }
 
 /*Operacje matematyczne*/
 
-Macierz Macierz::operator + (const Macierz & M) const{
-  Macierz Wynik;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::operator + (const Macierz<Typ, Rozmiar> & M) const{
+  Macierz<Typ, Rozmiar> Wynik;
   for(int i=0; i<ROZMIAR; i++){ 
     Wynik[i]=tab[i]+M[i];
     }
   return Wynik;
 }
 
-Macierz Macierz::operator - (const Macierz &M) const{
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::operator - (const Macierz<Typ, Rozmiar> &M) const{
   Macierz Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik [i] = tab[i]-M[i];
   return Wynik;
 }
 
-Macierz Macierz::operator *(const Macierz &M) const {
-  Macierz Wynik;
-  Macierz TranspM = M.transponuj();
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::operator *(const Macierz<Typ, Rozmiar> &M) const {
+  Macierz<Typ, Rozmiar> Wynik;
+  Macierz<Typ, Rozmiar> TranspM = M.transponuj();
   for (int i=0; i < ROZMIAR; i++)
     for (int j=0; j < ROZMIAR; j++)
       Wynik[i][j] = tab[i]*TranspM[j];
   return Wynik;
 }
 
-Wektor Macierz::operator *(const Wektor &W) const {
-  Wektor Wynik;
+template<typename Typ, int Rozmiar>
+Wektor<Typ, Rozmiar> Macierz::operator *(const Wektor<Typ, Rozmiar> &W) const {
+  Wektor<Typ, Rozmiar> Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik[i] = tab[i]*W;
   return Wynik;
 }
 
-Macierz Macierz::operator *(const double l) const {
-  Macierz Wynik;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::operator *(const Typ l) const {
+  Macierz<Typ, Rozmiar> Wynik;
   for (int i=0; i<ROZMIAR; i++)
     Wynik[i] = tab[i]*l;
   return Wynik;
 }
 
-Macierz Macierz::transponuj() const {
-  Macierz Transp;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::transponuj() const {
+  Macierz<Typ, Rozmiar> Transp;
   for (int i=0; i<ROZMIAR; i++)
     for (int j=0; j<ROZMIAR; j++)
       Transp[j][i] = tab[i][j];
   return Transp;
 }
 
-Macierz Macierz::zmien_kolumne(int kolum, Wektor wek){
-  Macierz mpom;
+template<typename Typ, int Rozmiar>
+Macierz<Typ, Rozmiar> Macierz::zmien_kolumne(int kolum, Wektor<Typ, Rozmiar> wek){
+  Macierz<Typ, Rozmiar> mpom;
   mpom = transponuj();
   mpom[kolum] = wek;
   mpom = mpom.transponuj();
   return mpom;
 }
 
- double Macierz::wyznacznik()const{
-      Macierz M=*this;
-      double wyznacznik=1;
-      for(int j=0;j<ROZMIAR;j++){         
-          for(int i=(j+1);i<ROZMIAR;i++){
-            M[i]=M[i]-(M[j]*(M[i][j]/M[j][j]));
-          }
+template<typename Typ, int Rozmiar>
+ Typ Macierz<Typ, Rozmiar>::wyznacznik() const
+{
+  Macierz<Typ, Rozmiar> M= (*this);
+  Typ wyznacznik=1;
+  for (int i = 0; i < Rozmiar; i++) { 
+    if (M[i][i] == 0) {
+    int j = i;
+      while (M[j][i] == 0){
+        if (++j == R)
+          return T(0); 
       }
-      for(int i=0;i<ROZMIAR;i++){
-          int j;
-          j=i;
-              wyznacznik*=M[i][j];
-          }
-      
-      return wyznacznik;
+      M[i] = M[j];
+      M[j] = -(*this)[i];
+    }
+    for (j = i + 1; j < Rozmiar; j++) {
+      M[j]=M[j]-(M[i]*(M[j][i]/M[i][i]));
+      if (Wyz[j].dlugosc() == 0)
+        return T(0);
+    }
+    wyznacznik *= M[i][i];
   }
+  return wyznacznik;
+}
 
 /*Operatory porownania*/
 
-bool Macierz::operator == (const Macierz &M) const {
+template<typename Typ, int Rozmiar>
+bool Macierz<Typ, Rozmiar>::operator == (const Macierz<Typ, Rozmiar> &M) const {
   for (int i=0; i<ROZMIAR; i++){
     if(tab[i]!=M[i]){
       return false;
@@ -99,7 +116,8 @@ bool Macierz::operator == (const Macierz &M) const {
   return true;
 }
 
-bool Macierz::operator != (const Macierz &M) const {
+template<typename Typ, int Rozmiar>
+bool Macierz<Typ, Rozmiar>::operator != (const Macierz<Typ, Rozmiar> &M) const {
   for(int i=0; i<ROZMIAR; i++){
     if(tab[i]!=M[i]){
       return true;
@@ -110,16 +128,18 @@ bool Macierz::operator != (const Macierz &M) const {
 
 /*Analog set i get*/
 
-const Wektor& Macierz::operator[] (int index) const{
-    if (index <0 || index>=ROZMIAR){
+template<typename Typ, int Rozmiar>
+const Wektor<Typ, Rozmiar> & Macierz::operator[] (int index) const{
+    if (index <0 || index>=Rozmiar){
       cerr << "indeks poza zakresem" << endl;
       exit(1);
     }
     return tab[index];
   }
 
-Wektor& Macierz::operator[] (int index){
-    if (index < 0 || index >= ROZMIAR){
+template<typename Typ, int Rozmiar>
+Wektor<Typ, Rozmiar> & Macierz::operator[] (int index){
+    if (index < 0 || index >= Rozmiar){
       cerr << "indeks poza zakresem" << endl;
       exit(1);
     }
@@ -128,13 +148,15 @@ Wektor& Macierz::operator[] (int index){
 
 /*Operatory wczytywania i wyswietlania*/
 
-istream & operator >> (istream &strm, Macierz &M) {
+template<typename Typ, int Rozmiar>
+istream & operator >> (istream &strm, Macierz<Typ, Rozmiar> &M) {
   for (int i=0; i<ROZMIAR; i++)
     strm >> M[i];
   return strm;
 }
 
-ostream & operator << (ostream &strm, const Macierz &M) {
+template<typename Typ, int Rozmiar>
+ostream & operator << (ostream &strm, const Macierz<Typ, Rozmiar> &M) {
   for (int i=0; i<ROZMIAR; i++)
     strm << M[i] << endl;
   return strm;
